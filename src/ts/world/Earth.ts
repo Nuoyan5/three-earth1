@@ -11,7 +11,7 @@ import earthVertex from '../../shaders/earth/vertex.vs';
 import earthFragment from '../../shaders/earth/fragment.fs';
 import { createAnimateLine, createLightPillar, createPointMesh, createWaveMesh, getCirclePoints, lon2xyz } from "../Utils/common";
 import gsap from "gsap";
-import { flyArc } from "../Utils/arc";
+// import { flyArc } from "../Utils/arc";
 
 export type punctuation = {
   circleColor: number,
@@ -48,11 +48,11 @@ type options = {
     number: number, // 一个圆环几个球
   },
   punctuation: punctuation,
-  flyLine: {
-    color: number, // 飞线的颜色
-    speed: number, // 飞机拖尾线速度
-    flyLineColor: number // 飞行线的颜色
-  },
+  // flyLine: {
+  //   color: number, // 飞线的颜色
+  //   speed: number, // 飞机拖尾线速度
+  //   flyLineColor: number // 飞行线的颜色
+  // },
 }
 type uniforms = {
   glowColor: { value: Color; }
@@ -152,10 +152,10 @@ export default class earth {
       this.createStars(); // 添加星星
       this.createEarthGlow() // 创建地球辉光
       this.createEarthAperture() // 创建地球的大气层
-      await this.createMarkupPoint() // 创建柱状点位
-      await this.createSpriteLabel() // 创建标签
+      // await this.createMarkupPoint() // 创建柱状点位
+      // await this.createSpriteLabel() // 创建标签
       this.createAnimateCircle() // 创建环绕卫星
-      this.createFlyLine() // 创建飞线
+      // this.createFlyLine() // 创建飞线
 
       this.show()
       resolve()
@@ -498,32 +498,32 @@ export default class earth {
     }
   }
 
-  createFlyLine() {
+  // createFlyLine() {
 
-    this.flyLineArcGroup = new Group();
-    this.flyLineArcGroup.userData['flyLineArray'] = []
-    this.earthGroup.add(this.flyLineArcGroup)
+  //   this.flyLineArcGroup = new Group();
+  //   this.flyLineArcGroup.userData['flyLineArray'] = []
+  //   this.earthGroup.add(this.flyLineArcGroup)
 
-    this.options.data.forEach((cities) => {
-      cities.endArray.forEach(item => {
+  //   this.options.data.forEach((cities) => {
+  //     cities.endArray.forEach(item => {
 
-        // 调用函数flyArc绘制球面上任意两点之间飞线圆弧轨迹
-        const arcline = flyArc(
-          this.options.earth.radius,
-          cities.startArray.E,
-          cities.startArray.N,
-          item.E,
-          item.N,
-          this.options.flyLine
-        );
+  //       // 调用函数flyArc绘制球面上任意两点之间飞线圆弧轨迹
+  //       // const arcline = flyArc(
+  //       //   this.options.earth.radius,
+  //       //   cities.startArray.E,
+  //       //   cities.startArray.N,
+  //       //   item.E,
+  //       //   item.N,
+  //       //   this.options.flyLine
+  //       // );
 
-        this.flyLineArcGroup.add(arcline); // 飞线插入flyArcGroup中
-        this.flyLineArcGroup.userData['flyLineArray'].push(arcline.userData['flyLine'])
-      });
+  //       this.flyLineArcGroup.add(arcline); // 飞线插入flyArcGroup中
+  //       this.flyLineArcGroup.userData['flyLineArray'].push(arcline.userData['flyLine'])
+  //     });
 
-    })
+  //   })
 
-  }
+  // }
 
   show() {
     gsap.to(this.group.scale, {
@@ -537,10 +537,10 @@ export default class earth {
 
   render() {
 
-    this.flyLineArcGroup?.userData['flyLineArray']?.forEach(fly => {
-      fly.rotation.z += this.options.flyLine.speed; // 调节飞线速度
-      if (fly.rotation.z >= fly.flyEndAngle) fly.rotation.z = 0;
-    })
+    // this.flyLineArcGroup?.userData['flyLineArray']?.forEach(fly => {
+    //   fly.rotation.z += this.options.flyLine.speed; // 调节飞线速度
+    //   if (fly.rotation.z >= fly.flyEndAngle) fly.rotation.z = 0;
+    // })
 
     if (this.isRotation) {
       this.earthGroup.rotation.y += this.options.earth.rotateSpeed;
